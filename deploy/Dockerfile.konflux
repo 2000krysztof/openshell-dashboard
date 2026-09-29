@@ -23,14 +23,21 @@ RUN npm run build
 # --- Backend build ---
 FROM ${GO_IMAGE} AS backend
 
+ARG TARGETOS
+ARG TARGETARCH
+USER root
 WORKDIR /opt/app-root/src
-ENV GOTOOLCHAIN=local
+ENV GOTOOLCHAIN=local \
+    CGO_ENABLED=0 \
+    GOOS=${TARGETOS:-linux} \
+    GOARCH=${TARGETARCH:-amd64} \
+    GOFLAGS=-mod=readonly
 COPY --chown=1001:0 backend/go.mod backend/go.sum ./
 RUN . /cachi2/cachi2.env && go mod download
 
 COPY --chown=1001:0 backend/ ./
 RUN . /cachi2/cachi2.env && \
-    CGO_ENABLED=0 go build \
+    go build \
       -trimpath \
       -ldflags="-s -w" \
       -o /opt/app-root/src/openshell-dashboard \
