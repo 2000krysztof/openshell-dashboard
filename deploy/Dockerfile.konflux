@@ -4,7 +4,7 @@
 # Keep these image references aligned with the versions in package.json and
 # go.mod. Konflux/MintMaker should replace tags with approved digest-pinned
 # references when the component is onboarded.
-ARG NODE_IMAGE=registry.access.redhat.com/ubi9/nodejs-22:1-1790265744
+ARG NODE_IMAGE=registry.access.redhat.com/ubi9/nodejs-22:1-1790265744@sha256:510a73eeff392500e22eadf976686dbd16c27eaa1a8808f8f51b29fec950f68c
 ARG GO_IMAGE=registry.access.redhat.com/ubi9/go-toolset:1.25
 ARG RUNTIME_IMAGE=registry.access.redhat.com/ubi9/ubi-micro:latest
 
