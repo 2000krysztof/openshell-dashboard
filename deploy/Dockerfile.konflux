@@ -46,11 +46,15 @@ RUN . /cachi2/cachi2.env && \
 # --- Runtime ---
 FROM ${RUNTIME_IMAGE}
 
-LABEL io.opendatahub.component="openshell-dashboard" \
-      io.k8s.display-name="OpenShell Dashboard" \
-      name="open-data-hub/openshell-dashboard" \
-      summary="OpenShell Dashboard" \
-      description="Dashboard for the OpenShell gateway"
+LABEL com.redhat.component="odh-openshell-dashboard-container" \
+      name="rhoai/odh-openshell-dashboard-rhel9" \
+      description="Web admin UI and BFF for OpenShell sandboxed AI agent runtimes" \
+      summary="odh-openshell-dashboard" \
+      maintainer="['managed-open-data-hub@redhat.com']" \
+      io.openshift.expose-services="8080:http" \
+      io.k8s.display-name="odh-openshell-dashboard" \
+      io.k8s.description="odh-openshell-dashboard" \
+      com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
 
 COPY --from=backend --chown=1001:0 \
     /opt/app-root/src/openshell-dashboard \
