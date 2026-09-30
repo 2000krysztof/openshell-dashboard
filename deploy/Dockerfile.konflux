@@ -56,16 +56,16 @@ LABEL com.redhat.component="odh-openshell-dashboard-container" \
       io.k8s.description="odh-openshell-dashboard" \
       com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
 
-COPY --from=backend --chown=1001:0 \
+COPY --from=backend --chown=65532:65532 \
     /opt/app-root/src/openshell-dashboard \
     /usr/local/bin/openshell-dashboard
-COPY --from=frontend --chown=1001:0 \
+COPY --from=frontend --chown=65532:65532 \
     /opt/app-root/src/dist \
     /srv/static
 
 ENV PORT=8080 \
     STATIC_DIR=/srv/static
 
-USER 1001:0
+USER 65532:65532
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/openshell-dashboard"]
