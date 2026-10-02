@@ -37,8 +37,10 @@ RUN go build \
 # --- Runtime ---
 FROM ${RUNTIME_IMAGE}
 
+ARG VERSION=0.0.0-semantically-released
 LABEL com.redhat.component="odh-openshell-dashboard-container" \
       name="rhoai/odh-openshell-dashboard-rhel9" \
+      version="${VERSION}" \
       description="Web admin UI and BFF for OpenShell sandboxed AI agent runtimes" \
       summary="odh-openshell-dashboard" \
       maintainer="['managed-open-data-hub@redhat.com']" \

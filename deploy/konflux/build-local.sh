@@ -5,7 +5,7 @@ set -euo pipefail
 if [[ $# -gt 1 || ${1:-} == --help ]]; then
     echo "Usage: $0 [image-tag]"
     echo "Requires a running Podman machine, git, and python3."
-    echo "Optional: PODMAN (executable path), HERMETO_IMAGE (fetcher image)."
+    echo "Optional: PODMAN (executable path), HERMETO_IMAGE (fetcher image), VERSION (image label)."
     if [[ $# -gt 1 ]]; then exit 1; fi
     exit 0
 fi
@@ -71,7 +71,9 @@ awk '/^[[:space:]]*RUN / {
 } { print }' "$SOURCE_DIR/deploy/Dockerfile.konflux" > "$BUILD_DIR/Dockerfile.hermetic"
 
 echo "Building $IMAGE_TAG with networking disabled"
+BUILD_VERSION="$(python3 -c 'import json, sys; print(json.load(open(sys.argv[1]))["version"])' "$SOURCE_DIR/frontend/package.json")"
 "$PODMAN" build --network none \
+    --build-arg "VERSION=${VERSION:-$BUILD_VERSION}" \
     -v "$OUTPUT_DIR:/cachi2/output:z" \
     -v "$OUTPUT_DIR/cachi2.env:/cachi2/cachi2.env:z" \
     -f "$BUILD_DIR/Dockerfile.hermetic" -t "$IMAGE_TAG" "$SOURCE_DIR"

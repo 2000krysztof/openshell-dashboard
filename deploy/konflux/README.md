@@ -18,6 +18,8 @@ Image pulls and dependency prefetch require network access.
 The default image tag is `localhost/openshell-dashboard:konflux-local`.
 Pass a different tag as the first argument. Set `HERMETO_IMAGE` to choose a
 specific fetcher image or `PODMAN` to select a Podman executable or wrapper.
+The image's `version` label defaults to the frontend manifest's version.
+Override it for a release build with `VERSION=1.2.3 bash deploy/konflux/build-local.sh`.
 
 Source snapshots and prefetched dependencies remain under
 `.cache/konflux-build/` for inspection. Hermeto's manifest rewrites affect only
