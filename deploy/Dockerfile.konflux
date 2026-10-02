@@ -47,10 +47,10 @@ LABEL com.redhat.component="odh-openshell-dashboard-container" \
       io.k8s.description="odh-openshell-dashboard" \
       com.redhat.license_terms="https://www.redhat.com/licenses/Red_Hat_Standard_EULA_20191108.pdf"
 
-COPY --from=backend --chown=65532:65532 \
+COPY --from=backend --chown=0:0 --chmod=0555 \
     /opt/app-root/src/openshell-dashboard \
     /usr/local/bin/openshell-dashboard
-COPY --from=frontend --chown=65532:65532 \
+COPY --from=frontend --chown=0:0 --chmod=0555 \
     /opt/app-root/src/dist \
     /srv/static
 
