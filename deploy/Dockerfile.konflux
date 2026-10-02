@@ -14,7 +14,7 @@ ENV CYPRESS_INSTALL_BINARY=0
 RUN npm ci --offline --ignore-scripts --no-audit --no-fund
 
 COPY --chown=1001:0 frontend/ ./
-RUN npm run build
+RUN npm run build -- --sourcemap false
 
 # --- Backend build ---
 FROM ${GO_IMAGE} AS backend
