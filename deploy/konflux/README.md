@@ -25,3 +25,20 @@ Source snapshots and prefetched dependencies remain under
 `.cache/konflux-build/` for inspection. Hermeto's manifest rewrites affect only
 the snapshot. The temporary clone retains the repository's origin; GitHub SSH
 origins are converted to HTTPS so the fetcher does not need local SSH keys.
+
+## FIPS requirement
+
+The Konflux image builds with Red Hat Go, `CGO_ENABLED=1`, and
+`GOEXPERIMENT=strictfipsruntime`. It links dynamically and uses UBI Minimal's
+OpenSSL libraries. `GOLANG_FIPS=1` in the runtime image requires the OpenSSL FIPS
+backend; do not override this with an opt-out setting. The Go experiment is
+required for this compiler: `-tags strictfipsruntime` alone does not select its
+strict checks. See [Red Hat's Go Toolset guidance](https://developers.redhat.com/articles/2025/01/23/fips-mode-red-hat-go-toolset).
+
+A successful local build or crypto smoke test does not establish FIPS
+compliance. Before shipping, validate the final image on FIPS-enabled
+RHEL/RHCOS for each supported architecture, confirm the cryptographic module
+and platform meet the applicable Red Hat validation requirements, and test
+the dashboard's TLS/mTLS gateway connections and HTTPS endpoints in that
+environment. Container FIPS mode requires a FIPS-enabled host; see
+[Red Hat's container guidance](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening).
