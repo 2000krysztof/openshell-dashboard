@@ -2,5 +2,17 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>red-hat-data-services/konflux-central//renovate/default-renovate.json5"
+  ],
+  "packageRules": [
+    {
+      "description": "The RHOAI release inherits Konflux base image pins from downstream main.",
+      "matchBaseBranches": [
+        "rhoai-3.7-ea.1"
+      ],
+      "matchFileNames": [
+        "deploy/Dockerfile.konflux"
+      ],
+      "enabled": false
+    }
   ]
 }
